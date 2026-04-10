@@ -1,9 +1,13 @@
 package com.govind.grocery_shop_api.controller;
 
+import com.govind.grocery_shop_api.dto.ResponseStructure;
+import com.govind.grocery_shop_api.entity.Category;
 import com.govind.grocery_shop_api.entity.Product;
 import com.govind.grocery_shop_api.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,34 +19,35 @@ public class ProductController {
 
     //get productById
     @GetMapping("/{productId}")
-    public Product findProductById(@PathVariable long productId){
+    public ResponseEntity<ResponseStructure<Product>> findProductById(@PathVariable long productId){
        return productService.findProductById(productId);
     }
 
     //Add new Product
     @PostMapping("/{categoryId}")
-    public Product addProduct(@RequestBody Product product, @PathVariable long categoryId){
+    public ResponseEntity<ResponseStructure<Product>> addProduct(@RequestBody Product product, @PathVariable long categoryId){
         return productService.addProduct(product,categoryId);
     }
 
 
     // get all Product
-    @GetMapping("/")
-    public List<Product> allProduct(){
-        return productService.getAllProduct();
+    @GetMapping
+    public ResponseEntity<ResponseStructure<List<Product>>> getAllProduct(){
+        return productService.findAllProducts();
     }
 
     //Delete product
 
     @DeleteMapping("/{productId}")
-    public void deleteProduct(@PathVariable long productId){
+    public ResponseEntity<String> deleteProduct(@PathVariable long productId) {
         productService.deleteProductById(productId);
+        return ResponseEntity.ok("Product deleted successfully");
     }
 
     //update product
 
     @PutMapping("/{categoryId}")
-    public Product updateProduct(@RequestBody Product product,@PathVariable long categoryId){
+    public ResponseEntity<ResponseStructure<Product> > updateProduct(@RequestBody Product product,@PathVariable long categoryId){
         return productService.updateProduct(product,categoryId);
     }
 }

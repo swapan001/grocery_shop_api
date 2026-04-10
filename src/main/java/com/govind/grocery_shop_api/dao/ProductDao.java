@@ -14,14 +14,14 @@ public class ProductDao {
     private ProductRepo productRepo;
 
     //create operation
-    public void addProduct(Product product){
-        productRepo.save(product);
+    public Product addProduct(Product product){
+        return productRepo.save(product);
     }
 
 
     //update operation
-    public void updateProduct(Product product){
-        productRepo.save(product);
+    public Product updateProduct(Product product){
+        return productRepo.save(product);
     }
 
     //delete operation
