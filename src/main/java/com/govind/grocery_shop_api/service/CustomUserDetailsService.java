@@ -1,4 +1,4 @@
-package com.govind.grocery_shop_api.service.security;
+package com.govind.grocery_shop_api.service;
 
 import com.govind.grocery_shop_api.entity.User;
 import com.govind.grocery_shop_api.repo.UserRepo;

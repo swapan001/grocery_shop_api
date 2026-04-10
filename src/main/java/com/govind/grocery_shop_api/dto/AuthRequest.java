@@ -3,7 +3,7 @@ package com.govind.grocery_shop_api.dto;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class AuthRequest {
     private String email;
     private String password;
 }

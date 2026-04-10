@@ -1,6 +1,6 @@
 package com.govind.grocery_shop_api.security;
 
-import com.govind.grocery_shop_api.service.security.CustomUserDetailsService;
+import com.govind.grocery_shop_api.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
