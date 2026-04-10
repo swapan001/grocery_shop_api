@@ -8,6 +8,7 @@ import com.govind.grocery_shop_api.entity.Product;
 import com.govind.grocery_shop_api.exception.CategoryNotFoundException;
 import com.govind.grocery_shop_api.exception.ProductIdNotEnteredException;
 import com.govind.grocery_shop_api.exception.ProductNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductDao productDao;
-    @Autowired
-    private CategoryDao categoryDao;
+
+    private final ProductDao productDao;
+
+    private final CategoryDao categoryDao;
 
     public ResponseEntity<ResponseStructure<Product>> findProductById(Long productId){
         Optional<Product>product=productDao.findProductById(productId);
@@ -45,7 +47,7 @@ public class ProductService {
             responseStructure.setStatusCode(HttpStatus.OK.value());
             responseStructure.setMessage("Product Added");
 
-            return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+            return new ResponseEntity<>(responseStructure, HttpStatus.CREATED);
 
         }else{
             System.out.println("Category not found");
