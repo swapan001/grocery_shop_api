@@ -31,7 +31,7 @@ public class JwtUtil {
     public boolean validateToken(String token) {
         return getClaims(token).getExpiration().after(new Date());
     }
-
+    //do something if token expired...  ==> next update
     private Claims getClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))
