@@ -31,4 +31,9 @@ public class CartController {
         return cartService.removeItemFromCart(cartItemId);
     }
 
+    @GetMapping("/total")
+    public ResponseEntity<ResponseStructure<Double>> getCartTotal() {
+        return cartService.getCartTotal();
+    }
+
 }

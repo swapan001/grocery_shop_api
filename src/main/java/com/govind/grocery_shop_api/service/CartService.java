@@ -100,4 +100,36 @@ public class CartService {
         responseStructure.setMessage("removed data");
         return ResponseEntity.ok().body(responseStructure);
     }
+
+
+    //cart total calculator
+
+    public ResponseEntity<ResponseStructure<Double>> getCartTotal() {
+
+        String email = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        User user=userRepo.findByEmail(email).get();
+        Optional<Cart> cart=cartRepo.findByUser(user);
+        if(cart.isEmpty()){
+            throw new RuntimeException("Cart not found for user");
+        }
+        List<CartItem> items = cartItemRepo.findByCart(cart.get());
+
+        double total = 0;
+
+        for (CartItem item : items) {
+            double price = item.getProduct().getProductPrice();
+            total += price * item.getQuantity();
+        }
+
+        return ResponseEntity.ok()
+                .body(ResponseStructure.<Double>builder()
+                        .data(total)
+                        .message("Cart total calculated successfully")
+                        .statusCode(HttpStatus.OK.value())
+                        .build());
+    }
 }
