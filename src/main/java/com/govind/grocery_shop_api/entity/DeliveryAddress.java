@@ -6,23 +6,23 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Getter
 @Setter
-
-public class UserProfile {
+@Getter
+@Entity
+public class DeliveryAddress {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Setter(AccessLevel.NONE)
-    private Long profileId;
-    private String name;
+    private Long id;
+
+    private String receiverName;
     private String phone;
-    private String address;
+    private String addressLine;
     private String city;
     private String pincode;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
