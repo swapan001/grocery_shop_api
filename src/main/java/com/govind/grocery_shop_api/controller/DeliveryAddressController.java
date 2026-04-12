@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 //update it later
 @RestController
@@ -15,14 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @SuppressWarnings("unused")
 public class DeliveryAddressController {
     private  final DeliveryAddressService deliveryAddressService;
-    @PostMapping("/{userId}")
-    public ResponseEntity<ResponseStructure<DeliveryAddress>> addDeliveryAddress(@PathVariable Long userId, @RequestBody DeliveryAddress address){
-        return deliveryAddressService.addDeliveryAddress(userId,address);
+    @PostMapping
+    public ResponseEntity<ResponseStructure<DeliveryAddress>> addDeliveryAddress(@RequestBody DeliveryAddress address){
+        return deliveryAddressService.addDeliveryAddress(address);  //used token for userId
     }
 
     @GetMapping
-    public ResponseEntity<ResponseStructure<DeliveryAddress>> getDeliveryAddress(){
-        return null;
+    public ResponseEntity<ResponseStructure<List<DeliveryAddress>>> getDeliveryAddress(){
+       return deliveryAddressService.getAllDeliveryAddressOfUser();
     }
 
 }
