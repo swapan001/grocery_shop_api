@@ -13,6 +13,7 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long profileId;
+    private String name;
     private String phone;
     private String address;
     private String city;
