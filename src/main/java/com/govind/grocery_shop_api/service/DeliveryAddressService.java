@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -60,4 +61,44 @@ public class DeliveryAddressService {
 
     }
 
+
+    //next update check if this address assign with any active order then it should not be change until order cancel or delivery
+    public ResponseEntity<ResponseStructure<DeliveryAddress>> updateDeliveryAddress(Long deliveryAddressId, DeliveryAddress updatedAddress) {
+
+        // 1. Get logged-in user (JWT)
+        String email = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 2. Fetch existing address
+        DeliveryAddress existingAddress = deliveryAddressRepo.findById(deliveryAddressId)
+                .orElseThrow(() -> new RuntimeException("Address not found"));
+
+        // 3. SECURITY CHECK
+        if (!existingAddress.getUser().getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("You are not allowed to update this address");
+        }
+
+        // 4. Update fields (DO NOT replace object)
+        existingAddress.setReceiverName(updatedAddress.getReceiverName());
+        existingAddress.setPhone(updatedAddress.getPhone());
+        existingAddress.setAddressLine(updatedAddress.getAddressLine());
+        existingAddress.setCity(updatedAddress.getCity());
+        existingAddress.setPincode(updatedAddress.getPincode());
+
+        // 5. Save updated entity
+        DeliveryAddress saved = deliveryAddressRepo.save(existingAddress);
+
+        // 6. Response
+        ResponseStructure<DeliveryAddress> response = new ResponseStructure<>();
+        response.setData(saved);
+        response.setMessage("Delivery Address Updated Successfully");
+        response.setStatusCode(HttpStatus.OK.value());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }  // next update handle exception in proper way
 }

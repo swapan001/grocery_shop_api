@@ -27,4 +27,9 @@ public class DeliveryAddressController {
        return deliveryAddressService.getAllDeliveryAddressOfUser();
     }
 
+    @PutMapping("/{delAddId}")
+    public  ResponseEntity<ResponseStructure<DeliveryAddress>> updateDeliveryAddress(@PathVariable Long delAddId,@RequestBody DeliveryAddress address){
+        return deliveryAddressService.updateDeliveryAddress(delAddId,address);
+    }
+
 }
